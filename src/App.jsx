@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
+import Background from "./Components/Background/Background";
+import Navbar from "./Components/Navbar/Navbar";
+import Hero from "./Components/Hero/Hero";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  let heroData = [
+    { tex1: "Dive into ", text2: "what you love" },
+    { tex1: "Indulge ", text2: "your passions" },
+    { tex1: "Give into ", text2: "your passions" },
+  ];
+
+  const [heroCount, setHeroCount] = useState(2);
+  const [playStatus, setPlayStatus] = useState(false);
+
+  useEffect(() => {
+    setInterval(() => {
+      setHeroCount((count) => {
+        return count === 2 ? 0 : count + 1;
+      });
+    }, 6000);
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <Background playStatus={playStatus} heroCount={heroCount} />
+      <Navbar />
+      <Hero
+        setPlayStatus={setPlayStatus}
+        heroData={heroData[heroCount]}
+        heroCount={heroCount}
+        setHeroCount={setHeroCount}
+        playStatus={playStatus}
+      />
+    </div>
+  );
 }
-
-export default App
